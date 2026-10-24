@@ -1,0 +1,552 @@
+{
+  "title": "Energy Price Insights",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Select electricity price provider",
+        "description": "Choose a price source. Additional providers can be connected using suitable Home Assistant entities.",
+        "data": {
+          "provider": "Price provider"
+        }
+      },
+      "source_settings": {
+        "title": "Select price data",
+        "description": "Choose the entity that provides electricity price intervals. Optionally select a separate entity for tomorrow’s prices.",
+        "data": {
+          "source_entity": "Price data entity",
+          "tomorrow_entity": "Tomorrow price data (optional)",
+          "price_unit": "Currency and price unit"
+        }
+      },
+      "field_mapping": {
+        "title": "Advanced field mapping",
+        "description": "\"auto\" detects known fields. Enter explicit field names only for nonstandard formats.",
+        "data": {
+          "data_attribute": "Price series attribute",
+          "start_field": "Start time field",
+          "end_field": "End time field",
+          "price_field": "Price field"
+        }
+      },
+      "evaluation_method": {
+        "title": "Choose evaluation method",
+        "description": "How should favorable electricity prices be determined? You can change the method at any time.",
+        "data": {
+          "price_evaluation_mode": "Evaluation method"
+        }
+      },
+      "threshold_settings": {
+        "title": "Set favorable threshold",
+        "description": "Choose how far above the daily minimum a price may be. At 20%, the daily minimum plus 20% of the range up to the daily maximum is favorable.",
+        "data": {
+          "default_threshold_percent": "Favorable threshold"
+        }
+      },
+      "window_settings": {
+        "title": "Set minimum period duration",
+        "description": "Set the minimum number of minutes for a favorable period. The integration finds all equally inexpensive periods and merges overlapping or adjoining matches into longer continuous price periods.",
+        "data": {
+          "window_minutes": "Minimum duration (1–1440 minutes)"
+        }
+      },
+      "window_scope": {
+        "title": "Include price windows",
+        "description": "Choose whether to consider only future windows or also windows that have already started and are still active. You can change this later.",
+        "data": {
+          "window_search_scope": "Eligible time windows"
+        }
+      },
+      "identity": {
+        "title": "Name and area",
+        "description": "Name this electricity price source and optionally assign an area. The name determines the initial entity IDs.",
+        "data": {
+          "display_name": "Electricity price source name",
+          "area_id": "Area"
+        }
+      }
+    },
+    "error": {
+      "invalid_source": "The selected entity is unavailable.",
+      "invalid_threshold": "Enter a threshold between 0 and 100%.",
+      "invalid_duration": "Enter a whole number of minutes between 1 and 1440.",
+      "invalid_display_name": "Enter a valid name (maximum 80 characters)."
+    },
+    "abort": {
+      "already_configured": "This price source is already configured.",
+      "source_missing": "The selected provider integration is not configured."
+    }
+  },
+  "options": {
+    "step": {
+      "field_mapping": {
+        "title": "Advanced field mapping",
+        "description": "\"auto\" detects known fields. Enter explicit field names only for nonstandard formats.",
+        "data": {
+          "data_attribute": "Price series attribute",
+          "start_field": "Start time field",
+          "end_field": "End time field",
+          "price_field": "Price field"
+        }
+      },
+      "source_settings": {
+        "title": "Change price data",
+        "description": "Change the price entity and optionally the forecast entity for tomorrow.",
+        "data": {
+          "source_entity": "Price data entity",
+          "tomorrow_entity": "Tomorrow price data (optional)",
+          "price_unit": "Currency and price unit"
+        }
+      },
+      "evaluation_method": {
+        "title": "Choose evaluation method",
+        "description": "How should favorable electricity prices be determined? You can change the method at any time.",
+        "data": {
+          "price_evaluation_mode": "Evaluation method"
+        }
+      },
+      "threshold_settings": {
+        "title": "Set favorable threshold",
+        "description": "Choose how far above the daily minimum a price may be. At 20%, the daily minimum plus 20% of the range up to the daily maximum is favorable.",
+        "data": {
+          "default_threshold_percent": "Favorable threshold"
+        }
+      },
+      "window_settings": {
+        "title": "Set minimum period duration",
+        "description": "Set the minimum number of minutes for a favorable period. The integration finds all equally inexpensive periods and merges overlapping or adjoining matches into longer continuous price periods.",
+        "data": {
+          "window_minutes": "Minimum duration (1–1440 minutes)"
+        }
+      },
+      "window_scope": {
+        "title": "Include price windows",
+        "description": "Choose whether to consider only future windows or also windows that have already started and are still active. You can change this later.",
+        "data": {
+          "window_search_scope": "Eligible time windows"
+        }
+      },
+      "area": {
+        "title": "Assign area",
+        "description": "Assign this electricity price source to an area, or clear its current assignment.",
+        "data": {
+          "area_id": "Area"
+        }
+      }
+    },
+    "error": {
+      "invalid_threshold": "Enter a threshold between 0 and 100%.",
+      "invalid_duration": "Enter a whole number of minutes between 1 and 1440.",
+      "invalid_source": "The selected entity is unavailable."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current_price": {
+        "name": "Current electricity price",
+        "state_attributes": {
+          "provider": {
+            "name": "Provider",
+            "state": {
+              "tibber": "Tibber",
+              "epex": "EPEX Spot",
+              "octopus": "Octopus Energy",
+              "generic": "Other price source"
+            }
+          },
+          "source_entity": {
+            "name": "Source entity"
+          },
+          "currency": {
+            "name": "Currency"
+          },
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Favourable threshold (%)",
+              "window": "Cheapest time window (minutes)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "min_today_price": {
+            "name": "Lowest price today"
+          },
+          "min_today_time": {
+            "name": "Time of lowest price today"
+          },
+          "avg_today_price": {
+            "name": "Average price today"
+          },
+          "avg_today_time": {
+            "name": "Time of price interval closest to the daily average"
+          },
+          "max_today_price": {
+            "name": "Highest price today"
+          },
+          "max_today_time": {
+            "name": "Time of highest price today"
+          },
+          "min_tomorrow_price": {
+            "name": "Lowest price tomorrow"
+          },
+          "min_tomorrow_time": {
+            "name": "Time of lowest price tomorrow"
+          },
+          "avg_tomorrow_price": {
+            "name": "Average price tomorrow"
+          },
+          "avg_tomorrow_time": {
+            "name": "Time of price interval closest to the next-day average"
+          },
+          "max_tomorrow_price": {
+            "name": "Highest price tomorrow"
+          },
+          "max_tomorrow_time": {
+            "name": "Time of highest price tomorrow"
+          },
+          "min_overall_price": {
+            "name": "Lowest price overall"
+          },
+          "min_overall_time": {
+            "name": "Time of lowest price overall"
+          },
+          "avg_overall_price": {
+            "name": "Average price overall"
+          },
+          "avg_overall_time": {
+            "name": "Time of price interval closest to the overall average"
+          },
+          "max_overall_price": {
+            "name": "Highest price overall"
+          },
+          "max_overall_time": {
+            "name": "Time of highest price overall"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          }
+        }
+      },
+      "favorable_phase": {
+        "name": "Favorable price period",
+        "state_attributes": {
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Favourable threshold (%)",
+              "window": "Cheapest time window (minutes)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "favorable_from": {
+            "name": "Favorable from"
+          },
+          "favorable_until": {
+            "name": "Favorable until"
+          },
+          "threshold_min_price": {
+            "name": "Daily minimum for favorable period"
+          },
+          "threshold_max_price": {
+            "name": "Maximum favorable price"
+          },
+          "min_favorable_phase_price": {
+            "name": "Lowest price of the favorable period"
+          },
+          "min_favorable_phase_time": {
+            "name": "Time of lowest price of the favorable period"
+          },
+          "avg_favorable_phase_price": {
+            "name": "Average price of the favorable period"
+          },
+          "avg_favorable_phase_time": {
+            "name": "Time of price interval closest to the period average"
+          },
+          "max_favorable_phase_price": {
+            "name": "Highest price of the favorable period"
+          },
+          "max_favorable_phase_time": {
+            "name": "Time of highest price of the favorable period"
+          },
+          "all_favorable_blocks": {
+            "name": "All favorable periods"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "actual_window_minutes": {
+            "name": "Actual window duration"
+          },
+          "longest_available_minutes": {
+            "name": "Longest priced duration"
+          },
+          "window_active": {
+            "name": "Window active"
+          },
+          "window_available": {
+            "name": "Complete window available"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "remaining_window_minutes": {
+            "name": "Remaining window minutes"
+          }
+        }
+      },
+      "forecast_today": {
+        "name": "Average electricity price today",
+        "state_attributes": {
+          "date": {
+            "name": "Date"
+          },
+          "threshold_price": {
+            "name": "Favorable price limit"
+          },
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Favourable threshold (%)",
+              "window": "Cheapest time window (minutes)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "min_day_price": {
+            "name": "Lowest price of the day"
+          },
+          "min_day_time": {
+            "name": "Time of lowest price of the day"
+          },
+          "avg_day_price": {
+            "name": "Average price of the day"
+          },
+          "avg_day_time": {
+            "name": "Time of price interval closest to the daily average"
+          },
+          "max_day_price": {
+            "name": "Highest price of the day"
+          },
+          "max_day_time": {
+            "name": "Time of highest price of the day"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "covered_minutes": {
+            "name": "Priced minutes"
+          },
+          "day_duration_minutes": {
+            "name": "Length of local day (minutes)"
+          },
+          "full_day_coverage": {
+            "name": "Complete price coverage"
+          }
+        }
+      },
+      "forecast_tomorrow": {
+        "name": "Average electricity price tomorrow",
+        "state_attributes": {
+          "date": {
+            "name": "Date"
+          },
+          "threshold_price": {
+            "name": "Favorable price limit"
+          },
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Favourable threshold (%)",
+              "window": "Cheapest time window (minutes)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "min_day_price": {
+            "name": "Lowest price of the day"
+          },
+          "min_day_time": {
+            "name": "Time of lowest price of the day"
+          },
+          "avg_day_price": {
+            "name": "Average price of the day"
+          },
+          "avg_day_time": {
+            "name": "Time of price interval closest to the daily average"
+          },
+          "max_day_price": {
+            "name": "Highest price of the day"
+          },
+          "max_day_time": {
+            "name": "Time of highest price of the day"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "covered_minutes": {
+            "name": "Priced minutes"
+          },
+          "day_duration_minutes": {
+            "name": "Length of local day (minutes)"
+          },
+          "full_day_coverage": {
+            "name": "Complete price coverage"
+          }
+        }
+      },
+      "price_availability": {
+        "name": "Price availability",
+        "state": {
+          "ready": "Ready",
+          "no_forecast": "No price forecast",
+          "no_current_price": "Current price missing",
+          "no_complete_window": "No complete time window"
+        },
+        "state_attributes": {
+          "price_source": {
+            "name": "Price source"
+          },
+          "current_price_available": {
+            "name": "Current price available"
+          },
+          "today_available": {
+            "name": "Today prices available"
+          },
+          "tomorrow_available": {
+            "name": "Tomorrow prices available"
+          },
+          "longest_available_minutes": {
+            "name": "Longest fully priced duration"
+          },
+          "required_window_minutes": {
+            "name": "Required window duration"
+          },
+          "latest_price_end": {
+            "name": "Latest available price end"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "last_price_update": {
+            "name": "Last price update"
+          },
+          "price_cache_valid": {
+            "name": "Price cache valid"
+          }
+        }
+      }
+    },
+    "binary_sensor": {
+      "favorable_now": {
+        "name": "Electricity price favorable now"
+      }
+    },
+    "number": {
+      "favorable_threshold": {
+        "name": "Favorable threshold",
+        "state_attributes": {
+          "current_threshold_price": {
+            "name": "Current price threshold"
+          },
+          "min_today_price": {
+            "name": "Lowest price today"
+          }
+        }
+      },
+      "window_minutes": {
+        "name": "Minimum favorable price period duration"
+      }
+    },
+    "select": {
+      "price_evaluation_mode": {
+        "name": "Price evaluation method",
+        "state": {
+          "threshold": "Favourable threshold (%)",
+          "window": "Cheapest continuous window (minutes)"
+        }
+      },
+      "window_search_scope": {
+        "name": "Eligible time windows",
+        "state": {
+          "future": "Future windows only",
+          "active_future": "Active and future windows"
+        }
+      }
+    }
+  },
+  "selector": {
+    "price_provider": {
+      "options": {
+        "tibber": "Tibber",
+        "epex": "EPEX Spot",
+        "octopus": "Octopus Energy",
+        "generic": "Other price source"
+      }
+    },
+    "evaluation_mode": {
+      "options": {
+        "threshold": "Favourable threshold (%)",
+        "window": "Favorable price period (minimum duration)"
+      }
+    },
+    "price_unit": {
+      "options": {
+        "auto": "Automatic (from price source)",
+        "eur_kwh": "€/kWh",
+        "cent_kwh": "ct/kWh",
+        "eur_mwh": "€/MWh",
+        "gbp_kwh": "£/kWh",
+        "pence_kwh": "p/kWh",
+        "gbp_mwh": "£/MWh",
+        "sek_kwh": "SEK/kWh",
+        "ore_sek_kwh": "öre/kWh (SEK)",
+        "nok_kwh": "NOK/kWh",
+        "ore_nok_kwh": "øre/kWh (NOK)",
+        "dkk_kwh": "DKK/kWh",
+        "ore_dkk_kwh": "øre/kWh (DKK)",
+        "pln_kwh": "PLN/kWh",
+        "pln_mwh": "PLN/MWh"
+      }
+    },
+    "window_search_scope": {
+      "options": {
+        "future": "Future windows only",
+        "active_future": "Active and future windows"
+      }
+    }
+  }
+}

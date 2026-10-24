@@ -1,0 +1,552 @@
+{
+  "title": "Energy Price Insights",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Select electricity price provider",
+        "description": "Choose a price source. Additional providers can be connected using suitable Home Assistant entities.",
+        "data": {
+          "provider": "Price provider"
+        }
+      },
+      "source_settings": {
+        "title": "Prijsgegevens selecteren",
+        "description": "Selecteer de entiteit met stroomprijzen. Je kunt eventueel een aparte prognose voor morgen kiezen.",
+        "data": {
+          "source_entity": "Prijsgegevens-entiteit",
+          "tomorrow_entity": "Prijsgegevens morgen (optioneel)",
+          "price_unit": "Valuta en prijseenheid"
+        }
+      },
+      "field_mapping": {
+        "title": "Advanced field mapping",
+        "description": "\"auto\" detects known fields. Enter explicit field names only for nonstandard formats.",
+        "data": {
+          "data_attribute": "Price series attribute",
+          "start_field": "Start time field",
+          "end_field": "End time field",
+          "price_field": "Price field"
+        }
+      },
+      "evaluation_method": {
+        "title": "Berekeningsmethode kiezen",
+        "description": "Hoe worden gunstige stroomprijzen bepaald? Je kunt de methode later wijzigen.",
+        "data": {
+          "price_evaluation_mode": "Berekeningsmethode"
+        }
+      },
+      "threshold_settings": {
+        "title": "Gunstigheidsdrempel instellen",
+        "description": "Kies hoeveel de prijs boven het dagminimum mag liggen. Bij 20% geldt het minimum plus 20% van de dagprijsspreiding als gunstig.",
+        "data": {
+          "default_threshold_percent": "Gunstigheidsdrempel"
+        }
+      },
+      "window_settings": {
+        "title": "Goedkoopste tijdvenster instellen",
+        "description": "Voer de gewenste duur in minuten in. Het aaneengesloten tijdvenster met de laagste gemiddelde stroomprijs wordt gezocht.",
+        "data": {
+          "window_minutes": "Duur (1–1440 minuten)"
+        }
+      },
+      "window_scope": {
+        "title": "Include price windows",
+        "description": "Choose whether to consider only future windows or also windows that have already started and are still active. You can change this later.",
+        "data": {
+          "window_search_scope": "Eligible time windows"
+        }
+      },
+      "identity": {
+        "title": "Name and area",
+        "description": "Name this electricity price source and optionally assign an area. The name determines the initial entity IDs.",
+        "data": {
+          "display_name": "Electricity price source name",
+          "area_id": "Area"
+        }
+      }
+    },
+    "error": {
+      "invalid_source": "The selected entity is unavailable.",
+      "invalid_threshold": "Voer een drempel tussen 0 en 100% in.",
+      "invalid_duration": "Voer een geheel aantal minuten tussen 1 en 1440 in.",
+      "invalid_display_name": "Enter a valid name (maximum 80 characters)."
+    },
+    "abort": {
+      "already_configured": "This price source is already configured.",
+      "source_missing": "The selected provider integration is not configured."
+    }
+  },
+  "options": {
+    "step": {
+      "field_mapping": {
+        "title": "Advanced field mapping",
+        "description": "\"auto\" detects known fields. Enter explicit field names only for nonstandard formats.",
+        "data": {
+          "data_attribute": "Price series attribute",
+          "start_field": "Start time field",
+          "end_field": "End time field",
+          "price_field": "Price field"
+        }
+      },
+      "source_settings": {
+        "title": "Prijsgegevens aanpassen",
+        "description": "Pas de prijsbron en eventueel de prognose voor morgen aan.",
+        "data": {
+          "source_entity": "Prijsgegevens-entiteit",
+          "tomorrow_entity": "Prijsgegevens morgen (optioneel)",
+          "price_unit": "Valuta en prijseenheid"
+        }
+      },
+      "evaluation_method": {
+        "title": "Berekeningsmethode kiezen",
+        "description": "Hoe worden gunstige stroomprijzen bepaald? Je kunt de methode later wijzigen.",
+        "data": {
+          "price_evaluation_mode": "Berekeningsmethode"
+        }
+      },
+      "threshold_settings": {
+        "title": "Gunstigheidsdrempel instellen",
+        "description": "Kies hoeveel de prijs boven het dagminimum mag liggen. Bij 20% geldt het minimum plus 20% van de dagprijsspreiding als gunstig.",
+        "data": {
+          "default_threshold_percent": "Gunstigheidsdrempel"
+        }
+      },
+      "window_settings": {
+        "title": "Goedkoopste tijdvenster instellen",
+        "description": "Voer de gewenste duur in minuten in. Het aaneengesloten tijdvenster met de laagste gemiddelde stroomprijs wordt gezocht.",
+        "data": {
+          "window_minutes": "Duur (1–1440 minuten)"
+        }
+      },
+      "window_scope": {
+        "title": "Include price windows",
+        "description": "Choose whether to consider only future windows or also windows that have already started and are still active. You can change this later.",
+        "data": {
+          "window_search_scope": "Eligible time windows"
+        }
+      },
+      "area": {
+        "title": "Assign area",
+        "description": "Assign this electricity price source to an area, or clear its current assignment.",
+        "data": {
+          "area_id": "Area"
+        }
+      }
+    },
+    "error": {
+      "invalid_threshold": "Voer een drempel tussen 0 en 100% in.",
+      "invalid_duration": "Voer een geheel aantal minuten tussen 1 en 1440 in.",
+      "invalid_source": "The selected entity is unavailable."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current_price": {
+        "name": "Huidige stroomprijs",
+        "state_attributes": {
+          "provider": {
+            "name": "Provider",
+            "state": {
+              "tibber": "Tibber",
+              "epex": "EPEX Spot",
+              "octopus": "Octopus Energy",
+              "generic": "Andere prijsbron"
+            }
+          },
+          "source_entity": {
+            "name": "Source entity"
+          },
+          "currency": {
+            "name": "Currency"
+          },
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Gunstigheidsdrempel (%)",
+              "window": "Goedkoopste tijdvenster (minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "min_today_price": {
+            "name": "Lowest price today"
+          },
+          "min_today_time": {
+            "name": "Time of lowest price today"
+          },
+          "avg_today_price": {
+            "name": "Average price today"
+          },
+          "avg_today_time": {
+            "name": "Time of average price today"
+          },
+          "max_today_price": {
+            "name": "Highest price today"
+          },
+          "max_today_time": {
+            "name": "Time of highest price today"
+          },
+          "min_tomorrow_price": {
+            "name": "Lowest price tomorrow"
+          },
+          "min_tomorrow_time": {
+            "name": "Time of lowest price tomorrow"
+          },
+          "avg_tomorrow_price": {
+            "name": "Average price tomorrow"
+          },
+          "avg_tomorrow_time": {
+            "name": "Time of average price tomorrow"
+          },
+          "max_tomorrow_price": {
+            "name": "Highest price tomorrow"
+          },
+          "max_tomorrow_time": {
+            "name": "Time of highest price tomorrow"
+          },
+          "min_overall_price": {
+            "name": "Lowest price overall"
+          },
+          "min_overall_time": {
+            "name": "Time of lowest price overall"
+          },
+          "avg_overall_price": {
+            "name": "Average price overall"
+          },
+          "avg_overall_time": {
+            "name": "Time of average price overall"
+          },
+          "max_overall_price": {
+            "name": "Highest price overall"
+          },
+          "max_overall_time": {
+            "name": "Time of highest price overall"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          }
+        }
+      },
+      "favorable_phase": {
+        "name": "Favorable price period",
+        "state_attributes": {
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Gunstigheidsdrempel (%)",
+              "window": "Goedkoopste tijdvenster (minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "favorable_from": {
+            "name": "Favorable from"
+          },
+          "favorable_until": {
+            "name": "Favorable until"
+          },
+          "threshold_min_price": {
+            "name": "Daily minimum for favorable period"
+          },
+          "threshold_max_price": {
+            "name": "Maximum favorable price"
+          },
+          "min_favorable_phase_price": {
+            "name": "Lowest price of the favorable period"
+          },
+          "min_favorable_phase_time": {
+            "name": "Time of lowest price of the favorable period"
+          },
+          "avg_favorable_phase_price": {
+            "name": "Average price of the favorable period"
+          },
+          "avg_favorable_phase_time": {
+            "name": "Time of average price of the favorable period"
+          },
+          "max_favorable_phase_price": {
+            "name": "Highest price of the favorable period"
+          },
+          "max_favorable_phase_time": {
+            "name": "Time of highest price of the favorable period"
+          },
+          "all_favorable_blocks": {
+            "name": "All favorable periods"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "actual_window_minutes": {
+            "name": "Actual window duration"
+          },
+          "longest_available_minutes": {
+            "name": "Longest priced duration"
+          },
+          "window_active": {
+            "name": "Window active"
+          },
+          "window_available": {
+            "name": "Complete window available"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "remaining_window_minutes": {
+            "name": "Remaining window minutes"
+          }
+        }
+      },
+      "forecast_today": {
+        "name": "Gemiddelde stroomprijs vandaag",
+        "state_attributes": {
+          "date": {
+            "name": "Date"
+          },
+          "threshold_price": {
+            "name": "Favorable price limit"
+          },
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Gunstigheidsdrempel (%)",
+              "window": "Goedkoopste tijdvenster (minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "min_day_price": {
+            "name": "Lowest price of the day"
+          },
+          "min_day_time": {
+            "name": "Time of lowest price of the day"
+          },
+          "avg_day_price": {
+            "name": "Average price of the day"
+          },
+          "avg_day_time": {
+            "name": "Time of average price of the day"
+          },
+          "max_day_price": {
+            "name": "Highest price of the day"
+          },
+          "max_day_time": {
+            "name": "Time of highest price of the day"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "covered_minutes": {
+            "name": "Minuten met prijzen"
+          },
+          "day_duration_minutes": {
+            "name": "Daglengte (minuten)"
+          },
+          "full_day_coverage": {
+            "name": "Volledige prijsdekking"
+          }
+        }
+      },
+      "forecast_tomorrow": {
+        "name": "Gemiddelde stroomprijs morgen",
+        "state_attributes": {
+          "date": {
+            "name": "Date"
+          },
+          "threshold_price": {
+            "name": "Favorable price limit"
+          },
+          "evaluation_mode": {
+            "name": "Evaluation method",
+            "state": {
+              "threshold": "Gunstigheidsdrempel (%)",
+              "window": "Goedkoopste tijdvenster (minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Window duration in minutes"
+          },
+          "min_day_price": {
+            "name": "Lowest price of the day"
+          },
+          "min_day_time": {
+            "name": "Time of lowest price of the day"
+          },
+          "avg_day_price": {
+            "name": "Average price of the day"
+          },
+          "avg_day_time": {
+            "name": "Time of average price of the day"
+          },
+          "max_day_price": {
+            "name": "Highest price of the day"
+          },
+          "max_day_time": {
+            "name": "Time of highest price of the day"
+          },
+          "data": {
+            "name": "Price data"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "covered_minutes": {
+            "name": "Minuten met prijzen"
+          },
+          "day_duration_minutes": {
+            "name": "Daglengte (minuten)"
+          },
+          "full_day_coverage": {
+            "name": "Volledige prijsdekking"
+          }
+        }
+      },
+      "price_availability": {
+        "name": "Price availability",
+        "state": {
+          "ready": "Ready",
+          "no_forecast": "No price forecast",
+          "no_current_price": "Current price missing",
+          "no_complete_window": "No complete time window"
+        },
+        "state_attributes": {
+          "price_source": {
+            "name": "Price source"
+          },
+          "current_price_available": {
+            "name": "Current price available"
+          },
+          "today_available": {
+            "name": "Today prices available"
+          },
+          "tomorrow_available": {
+            "name": "Tomorrow prices available"
+          },
+          "longest_available_minutes": {
+            "name": "Longest fully priced duration"
+          },
+          "required_window_minutes": {
+            "name": "Required window duration"
+          },
+          "latest_price_end": {
+            "name": "Latest available price end"
+          },
+          "window_search_scope": {
+            "name": "Eligible time windows",
+            "state": {
+              "future": "Future windows only",
+              "active_future": "Active and future windows"
+            }
+          },
+          "last_price_update": {
+            "name": "Last price update"
+          },
+          "price_cache_valid": {
+            "name": "Price cache valid"
+          }
+        }
+      }
+    },
+    "binary_sensor": {
+      "favorable_now": {
+        "name": "Stroomprijs nu gunstig"
+      }
+    },
+    "number": {
+      "favorable_threshold": {
+        "name": "Gunstigheidsdrempel",
+        "state_attributes": {
+          "current_threshold_price": {
+            "name": "Current price threshold"
+          },
+          "min_today_price": {
+            "name": "Lowest price today"
+          }
+        }
+      },
+      "window_minutes": {
+        "name": "Duur goedkoopste tijdvak"
+      }
+    },
+    "select": {
+      "price_evaluation_mode": {
+        "name": "Methode voor prijsbeoordeling",
+        "state": {
+          "threshold": "Voordelige drempel (%)",
+          "window": "Goedkoopste aaneengesloten tijdvak (minuten)"
+        }
+      },
+      "window_search_scope": {
+        "name": "Eligible time windows",
+        "state": {
+          "future": "Future windows only",
+          "active_future": "Active and future windows"
+        }
+      }
+    }
+  },
+  "selector": {
+    "price_provider": {
+      "options": {
+        "tibber": "Tibber",
+        "epex": "EPEX Spot",
+        "octopus": "Octopus Energy",
+        "generic": "Andere prijsbron"
+      }
+    },
+    "evaluation_mode": {
+      "options": {
+        "threshold": "Gunstigheidsdrempel (%)",
+        "window": "Goedkoopste tijdvenster (minuten)"
+      }
+    },
+    "price_unit": {
+      "options": {
+        "auto": "Automatisch (uit prijsbron)",
+        "eur_kwh": "€/kWh",
+        "cent_kwh": "ct/kWh",
+        "eur_mwh": "€/MWh",
+        "gbp_kwh": "£/kWh",
+        "pence_kwh": "p/kWh",
+        "gbp_mwh": "£/MWh",
+        "sek_kwh": "SEK/kWh",
+        "ore_sek_kwh": "öre/kWh (SEK)",
+        "nok_kwh": "NOK/kWh",
+        "ore_nok_kwh": "øre/kWh (NOK)",
+        "dkk_kwh": "DKK/kWh",
+        "ore_dkk_kwh": "øre/kWh (DKK)",
+        "pln_kwh": "PLN/kWh",
+        "pln_mwh": "PLN/MWh"
+      }
+    },
+    "window_search_scope": {
+      "options": {
+        "future": "Future windows only",
+        "active_future": "Active and future windows"
+      }
+    }
+  }
+}

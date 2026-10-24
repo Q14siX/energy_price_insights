@@ -1,0 +1,17 @@
+{
+  "domain": "energy_price_insights",
+  "name": "Energy Price Insights",
+  "codeowners": [
+    "@Q14siX"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/Q14siX/energy_price_insights",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/Q14siX/energy_price_insights/issues",
+  "version": "20261024.212504",
+  "after_dependencies": [
+    "frontend",
+    "lovelace"
+  ]
+}

@@ -1,0 +1,552 @@
+{
+  "title": "Energy Price Insights",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Strompreisanbieter auswählen",
+        "description": "Wähle eine Preisquelle. Weitere Anbieter lassen sich über passende Home-Assistant-Entitäten einbinden.",
+        "data": {
+          "provider": "Preisquelle"
+        }
+      },
+      "source_settings": {
+        "title": "Preisdaten auswählen",
+        "description": "Wähle die Entität mit den Strompreisen. Falls vorhanden, kannst du eine separate Preisprognose für morgen hinzufügen.",
+        "data": {
+          "source_entity": "Preisdaten-Entität",
+          "tomorrow_entity": "Preisdaten morgen (optional)",
+          "price_unit": "Währung und Preiseinheit"
+        }
+      },
+      "field_mapping": {
+        "title": "Erweiterte Feldzuordnung",
+        "description": "\"auto\" erkennt übliche Datenfelder selbstständig. Trage nur bei abweichenden Datenformaten die Feldnamen ein.",
+        "data": {
+          "data_attribute": "Attribut mit Preisreihe",
+          "start_field": "Feld für Beginn",
+          "end_field": "Feld für Ende",
+          "price_field": "Feld für Preis"
+        }
+      },
+      "evaluation_method": {
+        "title": "Auswertungsverfahren auswählen",
+        "description": "Wie soll ein günstiger Strompreis ermittelt werden? Du kannst das Verfahren jederzeit wieder ändern.",
+        "data": {
+          "price_evaluation_mode": "Auswertungsverfahren"
+        }
+      },
+      "threshold_settings": {
+        "title": "Günstigschwelle festlegen",
+        "description": "Bestimme, wie weit ein Strompreis über dem Tagesminimum liegen darf. Bei 20 % gilt das Tagesminimum plus 20 % der Spanne bis zum Tagesmaximum als günstig.",
+        "data": {
+          "default_threshold_percent": "Günstigschwelle"
+        }
+      },
+      "window_settings": {
+        "title": "Mindestdauer festlegen",
+        "description": "Lege fest, wie viele Minuten eine günstige Phase mindestens dauern muss. Die Integration findet alle gleich günstigen Zeiträume und fasst direkt angrenzende oder überlappende Treffer zu längeren Preisphasen zusammen.",
+        "data": {
+          "window_minutes": "Mindestdauer (1–1440 Minuten)"
+        }
+      },
+      "window_scope": {
+        "title": "Zeitfenster berücksichtigen",
+        "description": "Wähle, ob ausschließlich zukünftig beginnende Zeitfenster oder auch bereits laufende günstige Zeitfenster berücksichtigt werden sollen. Die Einstellung lässt sich jederzeit ändern.",
+        "data": {
+          "window_search_scope": "Zu berücksichtigende Zeitfenster"
+        }
+      },
+      "identity": {
+        "title": "Name und Raum",
+        "description": "Vergib einen Namen für diese Strompreisquelle und ordne sie optional einem Raum zu. Der Name legt die ursprünglichen Entitäts-IDs fest.",
+        "data": {
+          "display_name": "Name der Strompreisquelle",
+          "area_id": "Raum"
+        }
+      }
+    },
+    "error": {
+      "invalid_source": "Die gewählte Entität ist nicht verfügbar.",
+      "invalid_threshold": "Bitte eine Günstigschwelle zwischen 0 und 100 % eingeben.",
+      "invalid_duration": "Bitte eine ganze Minutenzahl zwischen 1 und 1440 eingeben.",
+      "invalid_display_name": "Gib einen gültigen Namen mit höchstens 80 Zeichen ein."
+    },
+    "abort": {
+      "already_configured": "Diese Preisquelle ist bereits eingerichtet.",
+      "source_missing": "Die gewählte Integration ist nicht eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "field_mapping": {
+        "title": "Erweiterte Feldzuordnung",
+        "description": "\"auto\" erkennt übliche Datenfelder selbstständig. Trage nur bei abweichenden Datenformaten die Feldnamen ein.",
+        "data": {
+          "data_attribute": "Attribut mit Preisreihe",
+          "start_field": "Feld für Beginn",
+          "end_field": "Feld für Ende",
+          "price_field": "Feld für Preis"
+        }
+      },
+      "source_settings": {
+        "title": "Preisdaten anpassen",
+        "description": "Passe die Preisquelle und bei Bedarf die Preisprognose für morgen an.",
+        "data": {
+          "source_entity": "Preisdaten-Entität",
+          "tomorrow_entity": "Preisdaten morgen (optional)",
+          "price_unit": "Währung und Preiseinheit"
+        }
+      },
+      "evaluation_method": {
+        "title": "Auswertungsverfahren auswählen",
+        "description": "Wie soll ein günstiger Strompreis ermittelt werden? Du kannst das Verfahren jederzeit wieder ändern.",
+        "data": {
+          "price_evaluation_mode": "Auswertungsverfahren"
+        }
+      },
+      "threshold_settings": {
+        "title": "Günstigschwelle festlegen",
+        "description": "Bestimme, wie weit ein Strompreis über dem Tagesminimum liegen darf. Bei 20 % gilt das Tagesminimum plus 20 % der Spanne bis zum Tagesmaximum als günstig.",
+        "data": {
+          "default_threshold_percent": "Günstigschwelle"
+        }
+      },
+      "window_settings": {
+        "title": "Mindestdauer festlegen",
+        "description": "Lege fest, wie viele Minuten eine günstige Phase mindestens dauern muss. Die Integration findet alle gleich günstigen Zeiträume und fasst direkt angrenzende oder überlappende Treffer zu längeren Preisphasen zusammen.",
+        "data": {
+          "window_minutes": "Mindestdauer (1–1440 Minuten)"
+        }
+      },
+      "window_scope": {
+        "title": "Zeitfenster berücksichtigen",
+        "description": "Wähle, ob ausschließlich zukünftig beginnende Zeitfenster oder auch bereits laufende günstige Zeitfenster berücksichtigt werden sollen. Die Einstellung lässt sich jederzeit ändern.",
+        "data": {
+          "window_search_scope": "Zu berücksichtigende Zeitfenster"
+        }
+      },
+      "area": {
+        "title": "Raum zuordnen",
+        "description": "Ordne die Strompreisquelle einem Raum zu oder entferne die bisherige Zuordnung.",
+        "data": {
+          "area_id": "Raum"
+        }
+      }
+    },
+    "error": {
+      "invalid_threshold": "Bitte eine Günstigschwelle zwischen 0 und 100 % eingeben.",
+      "invalid_duration": "Bitte eine ganze Minutenzahl zwischen 1 und 1440 eingeben.",
+      "invalid_source": "Die gewählte Entität ist nicht verfügbar."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current_price": {
+        "name": "Aktueller Strompreis",
+        "state_attributes": {
+          "provider": {
+            "name": "Anbieter",
+            "state": {
+              "tibber": "Tibber",
+              "epex": "EPEX Spot",
+              "octopus": "Octopus Energy",
+              "generic": "Weitere Preisquelle"
+            }
+          },
+          "source_entity": {
+            "name": "Quellentität"
+          },
+          "currency": {
+            "name": "Währung"
+          },
+          "evaluation_mode": {
+            "name": "Auswertungsverfahren",
+            "state": {
+              "threshold": "Günstigschwelle (%)",
+              "window": "Günstigstes Zeitfenster (Minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Zeitfensterdauer in Minuten"
+          },
+          "min_today_price": {
+            "name": "Niedrigster Preis heute"
+          },
+          "min_today_time": {
+            "name": "Zeitpunkt des niedrigsten Preises heute"
+          },
+          "avg_today_price": {
+            "name": "Durchschnittlicher Preis heute"
+          },
+          "avg_today_time": {
+            "name": "Zeitpunkt des Preisintervalls nahe dem Tagesdurchschnitt"
+          },
+          "max_today_price": {
+            "name": "Höchster Preis heute"
+          },
+          "max_today_time": {
+            "name": "Zeitpunkt des höchsten Preises heute"
+          },
+          "min_tomorrow_price": {
+            "name": "Niedrigster Preis morgen"
+          },
+          "min_tomorrow_time": {
+            "name": "Zeitpunkt des niedrigsten Preises morgen"
+          },
+          "avg_tomorrow_price": {
+            "name": "Durchschnittlicher Preis morgen"
+          },
+          "avg_tomorrow_time": {
+            "name": "Zeitpunkt des Preisintervalls nahe dem morgigen Durchschnitt"
+          },
+          "max_tomorrow_price": {
+            "name": "Höchster Preis morgen"
+          },
+          "max_tomorrow_time": {
+            "name": "Zeitpunkt des höchsten Preises morgen"
+          },
+          "min_overall_price": {
+            "name": "Niedrigster Preis gesamt"
+          },
+          "min_overall_time": {
+            "name": "Zeitpunkt des niedrigsten Preises gesamt"
+          },
+          "avg_overall_price": {
+            "name": "Durchschnittlicher Preis gesamt"
+          },
+          "avg_overall_time": {
+            "name": "Zeitpunkt des Preisintervalls nahe dem Gesamtdurchschnitt"
+          },
+          "max_overall_price": {
+            "name": "Höchster Preis gesamt"
+          },
+          "max_overall_time": {
+            "name": "Zeitpunkt des höchsten Preises gesamt"
+          },
+          "data": {
+            "name": "Preisdaten"
+          },
+          "window_search_scope": {
+            "name": "Zu berücksichtigende Zeitfenster",
+            "state": {
+              "future": "Nur zukünftige Zeitfenster",
+              "active_future": "Laufende und zukünftige Zeitfenster"
+            }
+          }
+        }
+      },
+      "favorable_phase": {
+        "name": "Günstige Preisphase",
+        "state_attributes": {
+          "evaluation_mode": {
+            "name": "Auswertungsverfahren",
+            "state": {
+              "threshold": "Günstigschwelle (%)",
+              "window": "Günstigstes Zeitfenster (Minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Zeitfensterdauer in Minuten"
+          },
+          "favorable_from": {
+            "name": "Günstig ab"
+          },
+          "favorable_until": {
+            "name": "Günstig bis"
+          },
+          "threshold_min_price": {
+            "name": "Tagesminimum der Preisphase"
+          },
+          "threshold_max_price": {
+            "name": "Maximal günstiger Preis"
+          },
+          "min_favorable_phase_price": {
+            "name": "Niedrigster Preis der günstigen Phase"
+          },
+          "min_favorable_phase_time": {
+            "name": "Zeitpunkt des niedrigsten Preises der günstigen Phase"
+          },
+          "avg_favorable_phase_price": {
+            "name": "Durchschnittlicher Preis der günstigen Phase"
+          },
+          "avg_favorable_phase_time": {
+            "name": "Zeitpunkt des Preisintervalls nahe dem Phasendurchschnitt"
+          },
+          "max_favorable_phase_price": {
+            "name": "Höchster Preis der günstigen Phase"
+          },
+          "max_favorable_phase_time": {
+            "name": "Zeitpunkt des höchsten Preises der günstigen Phase"
+          },
+          "all_favorable_blocks": {
+            "name": "Alle günstigen Zeitfenster"
+          },
+          "data": {
+            "name": "Preisdaten"
+          },
+          "actual_window_minutes": {
+            "name": "Tatsächliche Fensterdauer"
+          },
+          "longest_available_minutes": {
+            "name": "Längste bepreiste Dauer"
+          },
+          "window_active": {
+            "name": "Zeitfenster aktiv"
+          },
+          "window_available": {
+            "name": "Vollständiges Zeitfenster verfügbar"
+          },
+          "window_search_scope": {
+            "name": "Zu berücksichtigende Zeitfenster",
+            "state": {
+              "future": "Nur zukünftige Zeitfenster",
+              "active_future": "Laufende und zukünftige Zeitfenster"
+            }
+          },
+          "remaining_window_minutes": {
+            "name": "Verbleibende Minuten des Zeitfensters"
+          }
+        }
+      },
+      "forecast_today": {
+        "name": "Durchschnittlicher Strompreis heute",
+        "state_attributes": {
+          "date": {
+            "name": "Datum"
+          },
+          "threshold_price": {
+            "name": "Preisgrenze für günstige Preise"
+          },
+          "evaluation_mode": {
+            "name": "Auswertungsverfahren",
+            "state": {
+              "threshold": "Günstigschwelle (%)",
+              "window": "Günstigstes Zeitfenster (Minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Zeitfensterdauer in Minuten"
+          },
+          "min_day_price": {
+            "name": "Niedrigster Tagespreis"
+          },
+          "min_day_time": {
+            "name": "Zeitpunkt des niedrigsten Preises des Tages"
+          },
+          "avg_day_price": {
+            "name": "Durchschnittlicher Tagespreis"
+          },
+          "avg_day_time": {
+            "name": "Zeitpunkt des Preisintervalls nahe dem Tagesdurchschnitt"
+          },
+          "max_day_price": {
+            "name": "Höchster Tagespreis"
+          },
+          "max_day_time": {
+            "name": "Zeitpunkt des höchsten Preises des Tages"
+          },
+          "data": {
+            "name": "Preisdaten"
+          },
+          "window_search_scope": {
+            "name": "Zu berücksichtigende Zeitfenster",
+            "state": {
+              "future": "Nur zukünftige Zeitfenster",
+              "active_future": "Laufende und zukünftige Zeitfenster"
+            }
+          },
+          "covered_minutes": {
+            "name": "Preisabdeckung (Minuten)"
+          },
+          "day_duration_minutes": {
+            "name": "Tagesdauer (Minuten)"
+          },
+          "full_day_coverage": {
+            "name": "Vollständige Preisabdeckung"
+          }
+        }
+      },
+      "forecast_tomorrow": {
+        "name": "Durchschnittlicher Strompreis morgen",
+        "state_attributes": {
+          "date": {
+            "name": "Datum"
+          },
+          "threshold_price": {
+            "name": "Preisgrenze für günstige Preise"
+          },
+          "evaluation_mode": {
+            "name": "Auswertungsverfahren",
+            "state": {
+              "threshold": "Günstigschwelle (%)",
+              "window": "Günstigstes Zeitfenster (Minuten)"
+            }
+          },
+          "window_minutes": {
+            "name": "Zeitfensterdauer in Minuten"
+          },
+          "min_day_price": {
+            "name": "Niedrigster Tagespreis"
+          },
+          "min_day_time": {
+            "name": "Zeitpunkt des niedrigsten Preises des Tages"
+          },
+          "avg_day_price": {
+            "name": "Durchschnittlicher Tagespreis"
+          },
+          "avg_day_time": {
+            "name": "Zeitpunkt des Preisintervalls nahe dem Tagesdurchschnitt"
+          },
+          "max_day_price": {
+            "name": "Höchster Tagespreis"
+          },
+          "max_day_time": {
+            "name": "Zeitpunkt des höchsten Preises des Tages"
+          },
+          "data": {
+            "name": "Preisdaten"
+          },
+          "window_search_scope": {
+            "name": "Zu berücksichtigende Zeitfenster",
+            "state": {
+              "future": "Nur zukünftige Zeitfenster",
+              "active_future": "Laufende und zukünftige Zeitfenster"
+            }
+          },
+          "covered_minutes": {
+            "name": "Preisabdeckung (Minuten)"
+          },
+          "day_duration_minutes": {
+            "name": "Tagesdauer (Minuten)"
+          },
+          "full_day_coverage": {
+            "name": "Vollständige Preisabdeckung"
+          }
+        }
+      },
+      "price_availability": {
+        "name": "Preisverfügbarkeit",
+        "state": {
+          "ready": "Bereit",
+          "no_forecast": "Keine Preisdaten",
+          "no_current_price": "Aktueller Preis fehlt",
+          "no_complete_window": "Kein vollständiges Zeitfenster"
+        },
+        "state_attributes": {
+          "price_source": {
+            "name": "Preisquelle"
+          },
+          "current_price_available": {
+            "name": "Aktueller Preis verfügbar"
+          },
+          "today_available": {
+            "name": "Heutige Preise verfügbar"
+          },
+          "tomorrow_available": {
+            "name": "Morgige Preise verfügbar"
+          },
+          "longest_available_minutes": {
+            "name": "Längste vollständig bepreiste Dauer"
+          },
+          "required_window_minutes": {
+            "name": "Benötigte Zeitfensterdauer"
+          },
+          "latest_price_end": {
+            "name": "Ende der verfügbaren Preisdaten"
+          },
+          "window_search_scope": {
+            "name": "Zu berücksichtigende Zeitfenster",
+            "state": {
+              "future": "Nur zukünftige Zeitfenster",
+              "active_future": "Laufende und zukünftige Zeitfenster"
+            }
+          },
+          "last_price_update": {
+            "name": "Letzte Aktualisierung der Preisdaten"
+          },
+          "price_cache_valid": {
+            "name": "Preis-Cache gültig"
+          }
+        }
+      }
+    },
+    "binary_sensor": {
+      "favorable_now": {
+        "name": "Strompreis gerade günstig"
+      }
+    },
+    "number": {
+      "favorable_threshold": {
+        "name": "Günstigschwelle",
+        "state_attributes": {
+          "current_threshold_price": {
+            "name": "Aktuelle Preisgrenze"
+          },
+          "min_today_price": {
+            "name": "Niedrigster Preis heute"
+          }
+        }
+      },
+      "window_minutes": {
+        "name": "Mindestdauer günstiger Preisphasen"
+      }
+    },
+    "select": {
+      "price_evaluation_mode": {
+        "name": "Auswertungsverfahren",
+        "state": {
+          "threshold": "Günstigschwelle (%)",
+          "window": "Günstigstes Zeitfenster (Minuten)"
+        }
+      },
+      "window_search_scope": {
+        "name": "Zu berücksichtigende Zeitfenster",
+        "state": {
+          "future": "Nur zukünftige Zeitfenster",
+          "active_future": "Laufende und zukünftige Zeitfenster"
+        }
+      }
+    }
+  },
+  "selector": {
+    "price_provider": {
+      "options": {
+        "tibber": "Tibber",
+        "epex": "EPEX Spot",
+        "octopus": "Octopus Energy",
+        "generic": "Weitere Preisquelle"
+      }
+    },
+    "evaluation_mode": {
+      "options": {
+        "threshold": "Günstigschwelle (%)",
+        "window": "Günstige Preisphase (Mindestdauer)"
+      }
+    },
+    "price_unit": {
+      "options": {
+        "auto": "Automatisch (aus Preisquelle)",
+        "eur_kwh": "€/kWh",
+        "cent_kwh": "ct/kWh",
+        "eur_mwh": "€/MWh",
+        "gbp_kwh": "£/kWh",
+        "pence_kwh": "p/kWh",
+        "gbp_mwh": "£/MWh",
+        "sek_kwh": "SEK/kWh",
+        "ore_sek_kwh": "öre/kWh (SEK)",
+        "nok_kwh": "NOK/kWh",
+        "ore_nok_kwh": "øre/kWh (NOK)",
+        "dkk_kwh": "DKK/kWh",
+        "ore_dkk_kwh": "øre/kWh (DKK)",
+        "pln_kwh": "PLN/kWh",
+        "pln_mwh": "PLN/MWh"
+      }
+    },
+    "window_search_scope": {
+      "options": {
+        "future": "Nur zukünftige Zeitfenster",
+        "active_future": "Laufende und zukünftige Zeitfenster"
+      }
+    }
+  }
+}
