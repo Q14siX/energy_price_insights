@@ -1,10 +1,30 @@
 # Energy Price Insights — Releases
 
-**Aktuelle Version / Current version:** `20261025.001622`  
-**Vorherige Version / Previous version:** `20261025.001153`  
+**Aktuelle Version / Current version:** `20261025.003419`  
+**Vorherige Version / Previous version:** `20261025.001622`  
 **Lizenz / License:** Apache License 2.0
 
 ## Aktuelle Änderungen – Deutsch
+
+- **Alle vier Designs entsprechen der Designvorschau:** Aurora und Minimal behalten die Übersicht über dem Diagramm; Glass und Timeline zeigen zuerst das Diagramm. Aktueller Preis und Tageskennzahlen stehen links, die Preisphase rechts, unabhängig von den üblichen Unterschieden zwischen Editor- und Dashboardbreite.
+- **Einheitliche Diagrammsteuerung:** Bereichswahl und Zoom werden bei allen vier Designs unterhalb der Diagrammüberschrift angeordnet.
+- **Modularität:** Ausgeblendete Module bleiben ausgeblendet; die verbleibenden Module sollen ohne horizontales Überlaufen angeordnet werden.
+- **Unverändert:** Quellen, Preisberechnung, vorhandene Entitäten und Gerätezuordnung sowie die originalen Grafikdateien. Der Geräte-Registry-Fix aus der Vorgängerversion bleibt enthalten.
+- **Prüfung:** 240 Browserfälle (vier Designs × zwölf Kartenbreiten × fünf Modulkonfigurationen), Syntax-/JSON-Prüfung und ZIP-Integrität. Ein Live-Test innerhalb einer Home-Assistant-Installation steht weiterhin aus.
+
+## Current changes – English
+
+- **All four designs match their reference previews:** Aurora and Minimal display the overview above the chart; Glass and Timeline display the chart first. Current price and daily metrics remain on the left, price period on the right, independent of ordinary editor/dashboard width differences.
+- **Consistent chart controls:** Range selection and zoom controls are placed below the chart heading in each design.
+- **Modularity:** Disabled modules remain hidden; the remaining content adapts without horizontal overflow.
+- **Unchanged:** Price sources, calculation, existing entities and device association, as well as the original brand assets. The prior release's device registry deprecation fix remains included.
+- **Verification:** 240 browser checks (four designs × twelve card widths × five module configurations), syntax/JSON checks and ZIP integrity. Live testing in a Home Assistant installation remains outstanding.
+
+---
+
+## Vorherige Version / Previous release: `20261025.001622`
+
+### Deutsch
 
 - **Timeline-Vorschau entspricht dem Dashboard:** Die Modulanordnung aus dem Editor bleibt auf dem Dashboard auch bei etwas größerer Kartenbreite erhalten: aktueller Strompreis und die Tageskennzahlen stehen links untereinander, die Preisphase über die volle Höhe rechts.
 - **Einheitliche Diagrammbedienung:** Die Auswahl Heute/Morgen/Heute & morgen und die Zoom-Bedienung stehen im Timeline-Design dauerhaft unter der Diagrammüberschrift. Die Detailwerte der Preisphase behalten eine Spalte bei.
@@ -13,7 +33,7 @@
 - **Kompatibel:** Keine Änderung an Preisberechnung, vorhandenen Entitäts-IDs oder Einrichtung; Logo und Icon bleiben bytegenau erhalten.
 - **Prüfung:** JavaScript- und Python-Syntax, JSON-Dateien, Paketintegrität sowie Browsertests bei elf Kartenbreiten; kein horizontaler Überlauf. Kein vollständiger Test auf einer produktiven Home-Assistant-Installation.
 
-## Current changes – English
+### English
 
 - **Timeline editor preview matches the dashboard:** The layout chosen in the editor stays the same on the dashboard even with a slightly wider card: current rate and daily metrics are stacked on the left, while the price period spans the full height on the right.
 - **Consistent chart toolbar:** Today/tomorrow selection and zoom controls remain below the chart heading in Timeline mode. Price-period detail fields remain in one column.
