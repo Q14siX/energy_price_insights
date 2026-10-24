@@ -55,21 +55,12 @@
         "data": {
           "window_search_scope": "Zu berücksichtigende Zeitfenster"
         }
-      },
-      "identity": {
-        "title": "Name und Raum",
-        "description": "Vergib einen Namen für diese Strompreisquelle und ordne sie optional einem Raum zu. Der Name legt die ursprünglichen Entitäts-IDs fest.",
-        "data": {
-          "display_name": "Name der Strompreisquelle",
-          "area_id": "Raum"
-        }
       }
     },
     "error": {
       "invalid_source": "Die gewählte Entität ist nicht verfügbar.",
       "invalid_threshold": "Bitte eine Günstigschwelle zwischen 0 und 100 % eingeben.",
-      "invalid_duration": "Bitte eine ganze Minutenzahl zwischen 1 und 1440 eingeben.",
-      "invalid_display_name": "Gib einen gültigen Namen mit höchstens 80 Zeichen ein."
+      "invalid_duration": "Bitte eine ganze Minutenzahl zwischen 1 und 1440 eingeben."
     },
     "abort": {
       "already_configured": "Diese Preisquelle ist bereits eingerichtet.",
