@@ -1,3 +1,5 @@
+![https://raw.githubusercontent.com/Q14siX/energy_price_insights/master/custom_components/energy_price_insights/brand/logo.png](https://raw.githubusercontent.com/Q14siX/energy_price_insights/master/custom_components/energy_price_insights/brand/logo.png)
+
 # Energy Price Insights
 
 **Dynamische Strompreise verstehen. Günstige Zeitfenster finden. / Understand dynamic electricity prices. Find favorable time windows.**
@@ -15,6 +17,8 @@
 **Energy Price Insights** ist eine unabhängige, kostenlos selbst hostbare Custom-Integration für **Home Assistant**. Sie analysiert dynamische Strompreise aus bereits eingebundenen Preisquellen, berechnet zeitgewichtete Tagesdurchschnitte und erkennt günstige, zusammenhängende Zeitfenster. Eine integrierte, kompakte Lovelace-Karte zeigt die Ergebnisse übersichtlich an.
 
 Die Integration **steuert keine Verbraucher, Batteriespeicher oder Wechselrichter**. Sie sendet weder Schalt- noch Lade-/Entladebefehle. Für eigene Automationen stehen Home-Assistant-Sensoren und ein Binärsensor zur Verfügung. Das Projekt basiert konzeptionell auf der Preisauswertung von [Energy Storage Control](https://github.com/Q14siX/energy_storage_control), ist aber eigenständig und benötigt die ursprüngliche Integration nicht.
+
+![https://raw.githubusercontent.com/Q14siX/energy_price_insights/master/examples/Designs.png](https://raw.githubusercontent.com/Q14siX/energy_price_insights/master/examples/Designs.png)
 
 ### Funktionen
 
@@ -150,6 +154,8 @@ show_controls: false
 **Energy Price Insights** is an independent, self-hostable **Home Assistant custom integration** for analysing dynamic electricity prices. It consumes forecasts from existing price integrations, calculates time-weighted daily averages and finds low-cost continuous periods. An integrated, compact Lovelace card visualises the results.
 
 It **does not control appliances, batteries or inverters**, and issues no switching or charge/discharge commands. Home Assistant sensor and binary sensor entities can be used in your own automations. The project builds on the price-analysis concept from [Energy Storage Control](https://github.com/Q14siX/energy_storage_control), but is independent of that integration.
+
+![https://raw.githubusercontent.com/Q14siX/energy_price_insights/master/examples/Designs.png](https://raw.githubusercontent.com/Q14siX/energy_price_insights/master/examples/Designs.png)
 
 ### Features
 
