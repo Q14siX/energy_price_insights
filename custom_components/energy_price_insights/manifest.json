@@ -9,7 +9,7 @@
   "integration_type": "service",
   "iot_class": "calculated",
   "issue_tracker": "https://github.com/Q14siX/energy_price_insights/issues",
-  "version": "20261024.212504",
+  "version": "20261025.001622",
   "after_dependencies": [
     "frontend",
     "lovelace"
