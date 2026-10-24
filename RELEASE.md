@@ -54,7 +54,7 @@
 - **Keine Änderungen an Berechnung und Einrichtung:** Preisquellen, Entitäten, Zeitfensterlogik, die vier Kartendesigns und die vereinfachte Einrichtung bleiben erhalten.
 - **Layout geprüft:** Browserbasierte Breitentests für alle vier Designs auf neun Kartenbreiten ohne horizontalen Überlauf; Editor-/Dashboard-Vergleich für Timeline erfolgreich.
 
-#### English
+### English
 
 - **Consistent editor/dashboard layout:** The Timeline design now uses the same module arrangement at similar card widths. Daily metrics stay underneath the two-column price/period overview rather than moving into its left column in the editor.
 - **More deliberate narrow breakpoint:** The extra-narrow cockpit layout switches on at 405 instead of 450 pixels of card content width.
@@ -74,7 +74,7 @@
 - **Abwärtskompatibel:** Bestehende Konfigurationen, benutzerdefinierte Namen und Entitäts-IDs bleiben erhalten. Die Karte und deren Designs sind unverändert.
 - **Übersetzungen und Dokumentation angepasst:** Der entfallene Schritt wurde aus allen Einrichtungsübersetzungen entfernt.
 
-#### English
+### English
 
 - **Streamlined setup:** Removed the redundant “Name and area” wizard page.
 - **Native Home Assistant naming:** Device name and area are selected in Home Assistant’s final “Name and assign” dialog.
