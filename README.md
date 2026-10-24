@@ -57,9 +57,9 @@ Die jeweilige vorgelagerte Anbieterintegration muss bereits funktionsfähig eing
 
 ### Einrichtung und Optionen
 
-Der mehrstufige Assistent führt durch Preisquelle, einmaligen Namen, optionalen Home-Assistant-Raum, Quellentitäten, Auswertungsverfahren, passenden Prozent- bzw. Minutenwert und Suchbereich. Bei universellen Quellen können zusätzliche Feldzuordnungen notwendig sein.
+Der mehrstufige Assistent führt durch Preisquelle, gegebenenfalls Quellentitäten, Auswertungsverfahren, den passenden Prozent- bzw. Minutenwert und Suchbereich. Bei universellen Quellen können zusätzliche Feldzuordnungen notwendig sein. **Gerätename und Bereich werden anschließend im normalen Home-Assistant-Abschlussdialog „Benennen und zuordnen“ festgelegt.**
 
-**Entitäts-IDs bleiben bei Updates stabil.** Eine spätere automatische Umbenennung des ursprünglich gewählten Namens findet nicht statt. Bereiche/Räume können über die Optionen angepasst werden. Schwelle, Mindestdauer, Verfahren und Suchbereich sind über die Optionen sowie die vorhandenen `number`-/`select`-Entitäten veränderbar.
+**Bestehende Entitäts-IDs bleiben bei Updates stabil.** Die ursprüngliche Einrichtungseite „Name und Raum“ entfällt. Die abschließende Umbenennung eines Geräts in Home Assistant verändert bereits vergebene Entitäts-IDs nicht automatisch; sie können bei Bedarf über die Entitätsverwaltung geändert werden. Der Bereich kann zusätzlich über die Integrationsoptionen angepasst werden. Schwelle, Mindestdauer, Verfahren und Suchbereich sind über die Optionen sowie die vorhandenen `number`-/`select`-Entitäten veränderbar.
 
 ### Wie werden günstige Zeiträume bestimmt?
 
@@ -90,7 +90,7 @@ Die Karte wird mit der Integration installiert. Die JavaScript-Ressource wird na
 - **Glass:** Leichte, gestaffelte Bereiche mit dezenten Glas-/Kachel-Effekten.
 - **Timeline:** Diagrammorientierte Ansicht, in der der Preisverlauf im Vordergrund steht.
 
-Die Layouts passen sich der Kartenbreite an. Im visuellen Editor können die meisten Module und ihre Bestandteile **separat aktiviert oder deaktiviert** werden: Kopfzeile und Symbole, oberes Akzentband, aktueller Preis und Einheit, Status und Indikator, die beiden Tagesdurchschnitte, Statistikfelder, Phasenüberschrift/-details, Navigation, Countdown, einzelne Einstellfelder, Verfügbarkeitsanzeige sowie Diagrammtitel, -einheit, -achsen, -gitter, Zeitbereich, Markierungen, Legendenbestandteile, Fadenkreuz, Tooltip, Zoomknöpfe, Mausrad-/Pinch-Zoom und Verschieben. Außerdem: Akzentfarbe, Kartentitel, Diagrammtyp/-höhe, Abstände und erweiterte Entitätszuordnung.
+Die Layouts passen sich der Kartenbreite an. Im Timeline-Design behalten Vorschau im Editor und fertiges Dashboard unabhängig von üblichen Breitenunterschieden die gleiche Modulanordnung bei: aktueller Preis und Tageswerte links, Preisphase rechts. Die Diagrammsteuerung steht immer unter der Diagrammüberschrift in einer eigenen Zeile. Nur bei extrem schmalen Karten werden die Spalten aus Platzgründen umgestellt. Im visuellen Editor können die meisten Module und ihre Bestandteile **separat aktiviert oder deaktiviert** werden: Kopfzeile und Symbole, oberes Akzentband, aktueller Preis und Einheit, Status und Indikator, die beiden Tagesdurchschnitte, Statistikfelder, Phasenüberschrift/-details, Navigation, Countdown, einzelne Einstellfelder, Verfügbarkeitsanzeige sowie Diagrammtitel, -einheit, -achsen, -gitter, Zeitbereich, Markierungen, Legendenbestandteile, Fadenkreuz, Tooltip, Zoomknöpfe, Mausrad-/Pinch-Zoom und Verschieben. Außerdem: Akzentfarbe, Kartentitel, Diagrammtyp/-höhe, Abstände und erweiterte Entitätszuordnung.
 
 **Vier-Stunden-Kurzprognose:** Unter „Inhalte“ lässt sich die kompakte Preisvorschau (`show_price_sparkline`) separat aktivieren. Ihre Beschriftung kann unabhängig davon ausgeblendet werden (`show_price_sparkline_label`). Für den Text stehen im visuellen Editor die Varianten **„4-Stunden-Trend“** (Standard), **„Nächste 4 Stunden“** und **„4-Stunden-Prognose“** bereit. Alternativ gibt es unter **„Eigener Text“** genau ein Eingabefeld für eine individuelle Beschriftung. Dieser Text wird in jeder Home-Assistant-Sprache unverändert angezeigt. Ein leeres Feld verwendet den automatisch übersetzten Standardtext.
 
@@ -194,9 +194,9 @@ Set up the upstream price-provider integration first. The generic adapter does n
 
 ### Setup and options
 
-The multi-step wizard covers source, initial name, optional Home Assistant area, source entities, evaluation method, the relevant percentage or minute value, and search scope. Generic sources may require manual field mapping.
+The multi-step wizard covers the price provider, source entities where applicable, evaluation method, the relevant percentage or minute value, and search scope. Generic sources may require manual field mapping. **Home Assistant’s standard final “Name and assign” dialog handles the device name and area.**
 
-**Entity IDs are preserved across updates.** The initial name is not automatically renamed later. The area can be changed through the integration options. Threshold, window length, method and scope can also be changed through their existing `number` and `select` entities.
+**Existing entity IDs are preserved across updates.** The separate initial “Name and area” step has been removed. Renaming a device in Home Assistant’s final dialog does not automatically rename existing entity IDs; entity IDs can be edited in the entity registry if needed. Areas can also be changed through the integration options. Threshold, window length, method and scope can be changed through their existing `number` and `select` entities.
 
 ### Price evaluation
 
@@ -227,7 +227,7 @@ The card is bundled with the integration. Its JavaScript resource is registered 
 - **Glass:** Light staggered areas and subtle glass/tile effects.
 - **Timeline:** Chart-first presentation with the price trend as the focal point.
 
-Layouts respond to card width. The visual editor lets users **independently show or hide most modules and their subcomponents**, including: heading and icons, accent border, current rate and unit, status and indicator, both daily averages, statistics, phase heading/details, period navigation, countdown, individual evaluation controls, availability, and chart title/unit/axes/grid/range/markers/legend entries/crosshair/tooltip/zoom buttons/wheel-and-pinch zoom/panning. You can also customise accent color, card title, chart style and height, spacing and advanced entity mapping.
+Layouts respond to card width. In Timeline mode, the editor preview and the finished dashboard keep the same module arrangement regardless of ordinary card width differences: current price and daily metrics on the left, price period on the right. Chart controls occupy their own row underneath the chart heading. Only extremely narrow cards switch to a stacked arrangement. The visual editor lets users **independently show or hide most modules and their subcomponents**, including: heading and icons, accent border, current rate and unit, status and indicator, both daily averages, statistics, phase heading/details, period navigation, countdown, individual evaluation controls, availability, and chart title/unit/axes/grid/range/markers/legend entries/crosshair/tooltip/zoom buttons/wheel-and-pinch zoom/panning. You can also customise accent color, card title, chart style and height, spacing and advanced entity mapping.
 
 **Four-hour mini forecast:** Enable the compact price preview independently under “Visible content” (`show_price_sparkline`). Its caption can be switched off separately (`show_price_sparkline_label`). The visual editor offers **“4-hour trend”** (default), **“Next 4 hours”**, and **“4-hour forecast”**, or **“Custom text”** with a single editable caption field. The custom caption is displayed unchanged regardless of the Home Assistant language; an empty field falls back to the automatically translated default.
 
