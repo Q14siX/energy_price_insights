@@ -10,7 +10,7 @@ from homeassistant.helpers.selector import (
     EntitySelector, EntitySelectorConfig,
     NumberSelector, NumberSelectorConfig, NumberSelectorMode,
     SelectSelector, SelectSelectorConfig, SelectSelectorMode,
-    TextSelector, TextSelectorConfig, AreaSelector, AreaSelectorConfig,
+    AreaSelector, AreaSelectorConfig,
 )
 
 from .const import (
@@ -26,30 +26,12 @@ from .const import (
 )
 
 
-def identity_schema(defaults: dict[str, Any], fallback_name: str) -> vol.Schema:
-    """Provide an initial name and optional area; the name never changes later."""
-    fields: dict[Any, Any] = {
-        vol.Required(CONF_DISPLAY_NAME, default=defaults.get(CONF_DISPLAY_NAME) or fallback_name):
-            TextSelector(TextSelectorConfig()),
-    }
-    chosen_area = defaults.get(CONF_AREA_ID)
-    if chosen_area:
-        fields[vol.Optional(CONF_AREA_ID, description={"suggested_value": chosen_area})] = AreaSelector(AreaSelectorConfig())
-    else:
-        fields[vol.Optional(CONF_AREA_ID)] = AreaSelector(AreaSelectorConfig())
-    return vol.Schema(fields)
-
-
 def area_schema(defaults: dict[str, Any]) -> vol.Schema:
     """In the options flow only the room can be changed."""
     selected = defaults.get(CONF_AREA_ID)
     if selected:
         return vol.Schema({vol.Optional(CONF_AREA_ID, description={"suggested_value": selected}): AreaSelector(AreaSelectorConfig())})
     return vol.Schema({vol.Optional(CONF_AREA_ID): AreaSelector(AreaSelectorConfig())})
-
-
-def valid_display_name(value: Any) -> bool:
-    return isinstance(value, str) and 0 < len(value.strip()) <= 80 and bool(slugify(value.strip()))
 
 
 def threshold_selector():
@@ -184,24 +166,9 @@ class PriceInsightsConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input: dict[str, Any] | None = None):
         if user_input is None:
             return self.async_show_form(step_id="user", data_schema=provider_schema())
-        self._data[CONF_PROVIDER] = user_input[CONF_PROVIDER]
-        return await self.async_step_identity()
-
-    async def async_step_identity(self, user_input: dict[str, Any] | None = None):
-        if user_input is None:
-            provider = self._data[CONF_PROVIDER]
-            return self.async_show_form(
-                step_id="identity", data_schema=identity_schema(self._data, PROVIDER_NAMES[provider]),
-            )
-        if not valid_display_name(user_input.get(CONF_DISPLAY_NAME)):
-            return self.async_show_form(
-                step_id="identity",
-                data_schema=identity_schema(self._data, PROVIDER_NAMES[self._data[CONF_PROVIDER]]),
-                errors={CONF_DISPLAY_NAME: "invalid_display_name"},
-            )
-        self._data[CONF_DISPLAY_NAME] = user_input[CONF_DISPLAY_NAME].strip()
-        self._data[CONF_AREA_ID] = user_input.get(CONF_AREA_ID, "")
-        if self._data[CONF_PROVIDER] == SOURCE_TIBBER:
+        provider = user_input[CONF_PROVIDER]
+        self._data[CONF_PROVIDER] = provider
+        if provider == SOURCE_TIBBER:
             threshold, per_home = inherited_tibber_threshold(self.hass)
             self._data[CONF_THRESHOLD] = threshold
             if per_home:
