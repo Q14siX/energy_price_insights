@@ -1,4 +1,4 @@
-"""Stable entity ID prefixes chosen only during initial setup."""
+"""Preserve stable entity ID prefixes, including those from legacy setups."""
 from __future__ import annotations
 
 from homeassistant.util import slugify
@@ -6,9 +6,10 @@ from .const import SOURCE_TIBBER
 
 
 def entity_slug(entry, provider: str, home: str, homes: list[str]) -> str:
-    """Base entity IDs on the initial name, never rename existing registry entries.
+    """Retain legacy name-based IDs; new setups use source-derived IDs.
 
-    Existing installations without a user-selected name retain their old IDs.
+    Home Assistant handles new device naming at the end of the setup flow.
+    Existing entity registry entries are not renamed by this helper.
     """
     initial_name = entry.data.get("display_name")
     if initial_name:
