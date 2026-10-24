@@ -76,6 +76,8 @@ def _apply_device_area(hass: HomeAssistant, entry: ConfigEntry, coordinator: Pri
     for home in coordinator.home_keys:
         identifier = (f"{entry.entry_id}_{slugify(home)}"
                       if coordinator.provider == SOURCE_TIBBER else entry.entry_id)
-        device = registry.async_get_device(identifiers={(DOMAIN, identifier)})
+        device = registry.async_get_device_by_identifier(
+            (DOMAIN, identifier), entry.entry_id
+        )
         if device is not None and device.area_id != area:
             registry.async_update_device(device.id, area_id=area)
