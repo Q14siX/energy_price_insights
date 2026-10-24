@@ -55,21 +55,12 @@
         "data": {
           "window_search_scope": "Eligible time windows"
         }
-      },
-      "identity": {
-        "title": "Name and area",
-        "description": "Name this electricity price source and optionally assign an area. The name determines the initial entity IDs.",
-        "data": {
-          "display_name": "Electricity price source name",
-          "area_id": "Area"
-        }
       }
     },
     "error": {
       "invalid_source": "The selected entity is unavailable.",
       "invalid_threshold": "Angi en terskel mellom 0 og 100 %.",
-      "invalid_duration": "Angi et helt antall minutter mellom 1 og 1440.",
-      "invalid_display_name": "Enter a valid name (maximum 80 characters)."
+      "invalid_duration": "Angi et helt antall minutter mellom 1 og 1440."
     },
     "abort": {
       "already_configured": "This price source is already configured.",
